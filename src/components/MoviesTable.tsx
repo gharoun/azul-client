@@ -1,6 +1,7 @@
 import Like from "./common/Like";
 import { Movie, Pagination, SortColumn } from "../interfaces/interfaces";
 import Table from "./common/Table";
+import { Link } from "react-router-dom";
 interface Props {
   movies: Pagination;
   onDelete: (movie: Movie) => void;
@@ -16,7 +17,13 @@ const MoviesTable = ({
   onSort,
 }: Props) => {
   const columns = [
-    { path: "title", label: "Title" },
+    {
+      path: "title",
+      label: "Title",
+      content: (movie: Movie) => (
+        <Link to={`/movies/${movie._id}`}>{movie.title}</Link>
+      ),
+    },
     { path: "genre.name", label: "Genre" },
     { path: "numberInStock", label: "Stock" },
     { path: "dailyRentalRate", label: "Rate" },
