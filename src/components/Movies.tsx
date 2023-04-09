@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { getMovies } from "../services/fakeMovieService";
 import _ from "lodash";
-import Pagnination from "../common/Pagnination";
+import Pagnination from "./common/Pagnination";
 import { Genre, Movie } from "../interfaces/interfaces";
 import paginate from "../utils/paginat";
-import ListGroup from "./ListGroup";
+import ListGroup from "./common/ListGroup";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./MoviesTable";
-
+import { SortColumn } from "../interfaces/interfaces";
 const movies = () => {
   const [dataMovies, setDataMovies] = useState<{
     movies: Movie[];
@@ -27,10 +27,7 @@ const movies = () => {
     genres: [],
     selectedGenres: null,
   });
-  const [sortColumn, setSortColumn] = useState<{
-    path: string;
-    order: boolean | "asc" | "desc";
-  }>({
+  const [sortColumn, setSortColumn] = useState<SortColumn>({
     path: "",
     order: false,
   });
@@ -57,8 +54,8 @@ const movies = () => {
     setDataGenres({ ...dataGenres, selectedGenres: genre });
     setDataMovies({ ...dataMovies, currentPage: 1 });
   };
-  const handleSort = (path: string) => {
-    setSortColumn({ path: path, order: "asc" });
+  const handleSort = (sortColum: SortColumn) => {
+    setSortColumn(sortColum);
   };
   const { movies, currentPage, pageSize } = dataMovies;
 
@@ -84,6 +81,7 @@ const movies = () => {
           movies={AllMovies}
           onLike={handleLike}
           onDelete={handleDelete}
+          sortColumn={sortColumn}
           onSort={handleSort}
         />
         <Pagnination

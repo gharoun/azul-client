@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Pagination } from "../interfaces/interfaces";
+import { Pagination } from "../../interfaces/interfaces";
 
 interface Props {
   movies: Pagination;

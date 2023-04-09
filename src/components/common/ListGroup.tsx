@@ -1,4 +1,4 @@
-import { Genre } from "../interfaces/interfaces";
+import { Genre } from "../../interfaces/interfaces";
 
 interface Props {
   onItemSelect: (genres: Genre) => void;

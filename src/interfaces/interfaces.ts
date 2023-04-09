@@ -1,3 +1,5 @@
+import { ReactElement } from "react";
+
 export interface Genre {
   _id?: string;
   name: string;
@@ -18,4 +20,15 @@ export interface Pagination {
   totalPages: number;
   itemsPerPage: number;
   items: Movie[];
+}
+
+export interface SortColumn {
+  path: string;
+  order: boolean | "asc" | "desc";
+}
+export interface Columns {
+  label: string;
+  path: string;
+  key?: string;
+  content?: (movie: Movie) => ReactElement;
 }
