@@ -1,7 +1,6 @@
 import Like from "./common/Like";
 import { Movie, Pagination, SortColumn } from "../interfaces/interfaces";
-import TableHeader from "./common/TableHeader";
-import TableBody from "./common/TableBody";
+import Table from "./common/Table";
 interface Props {
   movies: Pagination;
   onDelete: (movie: Movie) => void;
@@ -42,10 +41,12 @@ const MoviesTable = ({
   ];
 
   return (
-    <table className="table">
-      <TableHeader columns={columns} sortColumn={sortColumn} onSort={onSort} />
-      <TableBody data={movies} columns={columns} />
-    </table>
+    <Table
+      columns={columns}
+      sortColumn={sortColumn}
+      onSort={onSort}
+      data={movies}
+    />
   );
 };
 

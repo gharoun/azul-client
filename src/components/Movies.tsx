@@ -57,15 +57,19 @@ const movies = () => {
   const handleSort = (sortColum: SortColumn) => {
     setSortColumn(sortColum);
   };
+
   const { movies, currentPage, pageSize } = dataMovies;
+  const getPagedData = () => {
+    const filtered =
+      dataGenres.selectedGenres && dataGenres.selectedGenres._id
+        ? movies.filter((m) => m.genre._id === dataGenres.selectedGenres?._id)
+        : movies;
+    const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
+    const AllMovies = paginate(sorted as Movie[], currentPage, pageSize);
+    return { data: AllMovies, totalCount: filtered.length };
+  };
 
-  const filtred =
-    dataGenres.selectedGenres && dataGenres.selectedGenres._id
-      ? movies.filter((m) => m.genre._id === dataGenres.selectedGenres?._id)
-      : movies;
-  const sorted = _.orderBy(filtred, [sortColumn.path], [sortColumn.order]);
-  const AllMovies = paginate(sorted as Movie[], currentPage, pageSize);
-
+  const { data: allMovies, totalCount } = getPagedData();
   if (movies.length === 0) return <p>There are no movies in the Database</p>;
 
   return (
@@ -76,16 +80,16 @@ const movies = () => {
         itemSelected={dataGenres.selectedGenres}
       />
       <div className="flex-fill">
-        <p>Showing {filtred.length} movies in the database.</p>
+        <p>Showing {totalCount} movies in the database.</p>
         <MoviesTable
-          movies={AllMovies}
+          movies={allMovies}
           onLike={handleLike}
           onDelete={handleDelete}
           sortColumn={sortColumn}
           onSort={handleSort}
         />
         <Pagnination
-          movies={AllMovies}
+          movies={allMovies}
           onClick={(page) =>
             setDataMovies({ ...dataMovies, currentPage: page })
           }
