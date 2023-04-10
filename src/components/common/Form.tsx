@@ -3,13 +3,18 @@ import { FieldValues, useForm } from "react-hook-form";
 import Input from "./Input";
 import { ZodType, z } from "zod";
 
+interface Field {
+  component: string;
+  render: string;
+  label: string;
+}
 interface Props {
   schema: ZodType;
   onSubmit: (value: FieldValues) => void;
-  inputs: string[];
+  renderComponents: Field[];
 }
 
-const Form = ({ schema, onSubmit, inputs }: Props) => {
+const Form = ({ schema, onSubmit, renderComponents }: Props) => {
   type FormData = z.infer<typeof schema>;
   const {
     register,
@@ -27,16 +32,15 @@ const Form = ({ schema, onSubmit, inputs }: Props) => {
       />
     );
   };
-  function capitalizeFirstLetter(input: string): string {
-    return input.charAt(0).toUpperCase() + input.slice(1);
-  }
 
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
-        {inputs.map((input) => (
-          <div key={input}>
-            {renderInput(input, capitalizeFirstLetter(input))}
+        {renderComponents.map((component) => (
+          <div key={component.render}>
+            {component.component === "input"
+              ? renderInput(component.render, component.label)
+              : ""}
           </div>
         ))}
         <button className={`btn btn-primary ${!isValid ? "disabled" : ""}`}>

@@ -22,11 +22,19 @@ const RegisterForm = () => {
     console.log("gaya", data);
   };
 
-  const inputs = ["username", "password", "email"];
+  const renderComponents = [
+    { component: "input", render: "username", label: "Username" },
+    { component: "input", render: "password", label: "Password" },
+    { component: "input", render: "email", label: "Email" },
+  ];
   return (
     <div>
       <h1>Register</h1>
-      <Form schema={schema} onSubmit={onSubmit} inputs={inputs} />
+      <Form
+        schema={schema}
+        onSubmit={onSubmit}
+        renderComponents={renderComponents}
+      />
     </div>
   );
 };

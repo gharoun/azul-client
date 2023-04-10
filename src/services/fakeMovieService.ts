@@ -78,27 +78,15 @@ export function getMovie(id: string) {
 }
 
 export function saveMovie(movie: Movie) {
-  let movieInDb: Movie | undefined = movies.find((m) => m._id === movie._id);
-  if (movieInDb) {
-    movieInDb.title = movie.title;
-    movieInDb.genre = genresAPI.genres.find((g) => g._id === movie._id) || {
-      _id: "",
-      name: "",
-    };
-    movieInDb.numberInStock = movie.numberInStock;
-    movieInDb.dailyRentalRate = movie.dailyRentalRate;
-  } else {
-    movieInDb = {
-      _id: Date.now().toString(),
-      title: movie.title,
-      genre: movie.genre,
-      numberInStock: movie.numberInStock,
-      dailyRentalRate: movie.dailyRentalRate,
-    };
+  let movieInDb: any = movies.find((m) => m._id === movie._id) || {};
+  movieInDb.title = movie.title;
+  movieInDb.genre = genresAPI.genres.find((g) => g._id === movie._id);
+  movieInDb.numberInStock = movie.numberInStock;
+  movieInDb.dailyRentalRate = movie.dailyRentalRate;
+  if (!movieInDb._id) {
+    movieInDb._id = Date.now().toString();
     movies.push(movieInDb);
   }
-
-  return movieInDb;
 }
 
 export function deleteMovie(id: string) {

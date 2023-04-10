@@ -1,10 +1,4 @@
-import {
-  FieldError,
-  FieldErrors,
-  FieldErrorsImpl,
-  Merge,
-  UseFormRegister,
-} from "react-hook-form";
+import { UseFormRegister } from "react-hook-form";
 
 interface Props {
   name: string;

@@ -8,6 +8,7 @@ import ListGroup from "./common/ListGroup";
 import { getGenres } from "../services/fakeGenreService";
 import MoviesTable from "./MoviesTable";
 import { SortColumn } from "../interfaces/interfaces";
+import { Link } from "react-router-dom";
 const movies = () => {
   const [dataMovies, setDataMovies] = useState<{
     movies: Movie[];
@@ -80,6 +81,13 @@ const movies = () => {
         itemSelected={dataGenres.selectedGenres}
       />
       <div className="flex-fill">
+        <Link
+          to="movies/new"
+          className="btn btn-primary"
+          style={{ marginBottom: 20 }}
+        >
+          Add Movie
+        </Link>
         <p>Showing {totalCount} movies in the database.</p>
         <MoviesTable
           movies={allMovies}
