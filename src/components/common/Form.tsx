@@ -2,11 +2,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { FieldValues, useForm } from "react-hook-form";
 import Input from "./Input";
 import { ZodType, z } from "zod";
+import Select from "./Select";
+import Button from "./Button";
 
 interface Field {
   component: string;
   render: string;
   label: string;
+  options?: any;
 }
 interface Props {
   schema: ZodType;
@@ -33,6 +36,18 @@ const Form = ({ schema, onSubmit, renderComponents }: Props) => {
     );
   };
 
+  const renderSelect = (name: FormData, label: string, option: any) => {
+    return (
+      <Select
+        register={register}
+        name={name}
+        label={label}
+        error={errors[name]}
+        options={option}
+      />
+    );
+  };
+
   return (
     <div>
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -40,12 +55,14 @@ const Form = ({ schema, onSubmit, renderComponents }: Props) => {
           <div key={component.render}>
             {component.component === "input"
               ? renderInput(component.render, component.label)
-              : ""}
+              : renderSelect(
+                  component.render,
+                  component.label,
+                  component.options
+                )}
           </div>
         ))}
-        <button className={`btn btn-primary ${!isValid ? "disabled" : ""}`}>
-          Login
-        </button>
+        <Button isValid={isValid} label={"Login"} />
       </form>
     </div>
   );

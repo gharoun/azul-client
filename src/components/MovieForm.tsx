@@ -14,82 +14,29 @@ const schema = z.object({
   numberInStock: z.number(),
   dailyRentalRate: z.number(),
 });
-type FormData = z.infer<typeof schema>;
 const MovieForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
-
+  const navigate = useNavigate();
   const onSubmit = (data: FieldValues) => {
     saveMovie(data as Movie);
     navigate("/movies");
   };
 
   const params = useParams();
-  const navigate = useNavigate();
+  const renderComponents = [
+    { component: "input", render: "title", label: "Title" },
+    { component: "input", render: "numberInStock", label: "Number In Stock" },
+    { component: "input", render: "dailyRentalRate", label: "Rate" },
+  ];
 
   return (
     <div>
       <h1>MovieForm </h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="mb-3">
-          <label htmlFor="title">Title</label>
-          <input
-            {...register("title")}
-            type="text"
-            className="form-control"
-            id="title"
-          />
-          {errors.title && (
-            <div className="alert alert-danger">{errors.title.message}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="genre">Genres</label>
-          <select {...register("genre")} className="form-control" id="genre">
-            <option value="action">action</option>
-            <option value="action">trealer</option>
-            <option value="action">threaler</option>
-          </select>
-          {errors.genre && (
-            <div className="alert alert-danger">{errors.genre.message}</div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="numberInStock">Number in Stock</label>
-          <input
-            {...register("numberInStock", { valueAsNumber: true })}
-            type="number"
-            className="form-control"
-            id="numberInStock"
-          />
-          {errors.numberInStock && (
-            <div className="alert alert-danger">
-              {errors.numberInStock.message}
-            </div>
-          )}
-        </div>
-        <div className="mb-3">
-          <label htmlFor="dailyRentalRate">Rate</label>
-          <input
-            {...register("dailyRentalRate", { valueAsNumber: true })}
-            type="number"
-            className="form-control"
-            id="dailyRentalRate"
-          />
-          {errors.dailyRentalRate && (
-            <div className="alert alert-danger">
-              {errors.dailyRentalRate.message}
-            </div>
-          )}
-        </div>
 
-        <button className={`btn btn-primary ${!isValid ? "disabled" : ""}`}>
-          Save
-        </button>
-      </form>
+      <Form
+        schema={schema}
+        onSubmit={onSubmit}
+        renderComponents={renderComponents}
+      />
     </div>
   );
 };
