@@ -1,7 +1,6 @@
 import { z } from "zod";
-import { useForm, FieldValues } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import Input from "./common/Input";
+import { FieldValues } from "react-hook-form";
+
 import Form from "./common/Form";
 const schema = z.object({
   username: z
@@ -13,8 +12,6 @@ const schema = z.object({
     .nonempty({ message: "password field is required" })
     .min(5, { message: "Password should be at least 5 caracteres!" }),
 });
-type FormData = z.infer<typeof schema>;
-
 const LoginForm = () => {
   const onSubmit = (data: FieldValues) => {
     console.log("gaya", data);
@@ -23,7 +20,7 @@ const LoginForm = () => {
   const inputs = ["username", "password"];
   return (
     <div>
-      <h1>LoginForm</h1>
+      <h1>Login</h1>
       <Form schema={schema} onSubmit={onSubmit} inputs={inputs} />
     </div>
   );

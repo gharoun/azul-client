@@ -1,4 +1,3 @@
-
 import { Routes, Route } from "react-router-dom";
 
 import Customers from "./components/Customers";
@@ -8,6 +7,7 @@ import Rentals from "./components/Rentals";
 import NoPage from "./components/NoPage";
 import MovieForm from "./components/MovieForm";
 import LoginForm from "./components/LoginForm";
+import RegisterForm from "./components/RegisterForm";
 
 import "./App.css";
 function App() {
@@ -18,7 +18,8 @@ function App() {
         <Routes>
           <Route path="/movies/:id" element={<MovieForm />} />
           <Route path="/login" element={<LoginForm />} />
-          <Route path="/Movies" element={<Movies />} />
+          <Route path="/register" element={<RegisterForm />} />
+          <Route path="/movies" element={<Movies />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
           <Route index element={<Movies />} />
