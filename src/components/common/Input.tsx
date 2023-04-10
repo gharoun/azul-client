@@ -1,16 +1,20 @@
-import React from "react";
-import { FieldErrors, FieldValues, UseFormRegister } from "react-hook-form";
-import { FormData } from "../LoginForm";
+import {
+  FieldError,
+  FieldErrors,
+  FieldErrorsImpl,
+  Merge,
+  UseFormRegister,
+} from "react-hook-form";
 
 interface Props {
-  name: keyof FormData;
-  register: UseFormRegister<FormData>;
+  name: string;
+  register: UseFormRegister<any>;
   label: string;
-  type: string;
-  error: FieldErrors<FormData>;
+  type?: string;
+  error?: any;
 }
 
-const Input = ({ register, name, label, type, error }: Props) => {
+const Input = ({ register, name, label, type = "text", error }: Props) => {
   return (
     <div className="mb-3">
       <label htmlFor={name}>{label}</label>
@@ -20,12 +24,7 @@ const Input = ({ register, name, label, type, error }: Props) => {
         className="form-control"
         id={name}
       />
-      {error.username && (
-        <p className="text-danger">{error.username.message}</p>
-      )}
-      {error.password && (
-        <p className="text-danger">{error.password.message}</p>
-      )}
+      {error && <div className="alert alert-danger">{error?.message}</div>}
     </div>
   );
 };

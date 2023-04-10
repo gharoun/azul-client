@@ -2,45 +2,29 @@ import { z } from "zod";
 import { useForm, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import Input from "./common/Input";
+import Form from "./common/Form";
 const schema = z.object({
-  username: z.string().min(5),
-  password: z.string().min(5),
+  username: z
+    .string()
+    .nonempty({ message: "username field is required" })
+    .min(5, { message: "UserName should be at least 5 caracteres!" }),
+  password: z
+    .string()
+    .nonempty({ message: "password field is required" })
+    .min(5, { message: "Password should be at least 5 caracteres!" }),
 });
-export type FormData = z.infer<typeof schema>;
+type FormData = z.infer<typeof schema>;
 
 const LoginForm = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
-
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: FieldValues) => {
     console.log("gaya", data);
   };
 
+  const inputs = ["username", "password"];
   return (
     <div>
       <h1>LoginForm</h1>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          register={register}
-          name="username"
-          type="text"
-          label="Username"
-          error={errors}
-        />
-
-        <Input
-          register={register}
-          name="password"
-          type="password"
-          label="Password"
-          error={errors}
-        />
-
-        <button className="btn btn-primary">Login</button>
-      </form>
+      <Form schema={schema} onSubmit={onSubmit} inputs={inputs} />
     </div>
   );
 };
