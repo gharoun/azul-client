@@ -24,7 +24,12 @@ const RegisterForm = () => {
 
   const renderComponents = [
     { component: "input", render: "username", label: "Username" },
-    { component: "input", render: "password", label: "Password" },
+    {
+      component: "input",
+      render: "password",
+      label: "Password",
+      type: "password",
+    },
     { component: "input", render: "email", label: "Email" },
   ];
   return (
@@ -34,6 +39,7 @@ const RegisterForm = () => {
         schema={schema}
         onSubmit={onSubmit}
         renderComponents={renderComponents}
+        submitButton="Rerister"
       />
     </div>
   );

@@ -20,7 +20,7 @@ function App() {
           <Route path="/movies/new" element={<MovieForm />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/register" element={<RegisterForm />} />
-          <Route path="/movies" element={<Movies />} />
+          <Route path="/" element={<Movies />} />
           <Route path="/customers" element={<Customers />} />
           <Route path="/rentals" element={<Rentals />} />
           <Route index element={<Movies />} />

@@ -19,6 +19,7 @@ const Select = ({ register, name, label, error, options }: Props) => {
     <div className="mb-3">
       <label htmlFor={name}>{label}</label>
       <select {...register(name)} className="form-control" id={name}>
+        <option></option>
         {options.map((option) => (
           <option key={option._id} value={option._id}>
             {option.name}

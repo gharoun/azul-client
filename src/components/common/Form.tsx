@@ -9,15 +9,17 @@ interface Field {
   component: string;
   render: string;
   label: string;
+  type?: string;
   options?: any;
 }
 interface Props {
   schema: ZodType;
   onSubmit: (value: FieldValues) => void;
   renderComponents: Field[];
+  submitButton: string;
 }
 
-const Form = ({ schema, onSubmit, renderComponents }: Props) => {
+const Form = ({ schema, onSubmit, renderComponents, submitButton }: Props) => {
   type FormData = z.infer<typeof schema>;
   const {
     register,
@@ -25,13 +27,14 @@ const Form = ({ schema, onSubmit, renderComponents }: Props) => {
     formState: { errors, isValid },
   } = useForm<FormData>({ resolver: zodResolver(schema) });
 
-  const renderInput = (name: FormData, label: string) => {
+  const renderInput = (name: FormData, label: string, type?: string) => {
     return (
       <Input
         register={register}
         name={name}
         label={label}
         error={errors[name]}
+        type={type}
       />
     );
   };
@@ -53,16 +56,27 @@ const Form = ({ schema, onSubmit, renderComponents }: Props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         {renderComponents.map((component) => (
           <div key={component.render}>
-            {component.component === "input"
-              ? renderInput(component.render, component.label)
-              : renderSelect(
-                  component.render,
-                  component.label,
-                  component.options
-                )}
+            {(() => {
+              switch (component.component) {
+                case "input":
+                  return renderInput(
+                    component.render,
+                    component.label,
+                    component.type
+                  );
+                case "select":
+                  return renderSelect(
+                    component.render,
+                    component.label,
+                    component.options
+                  );
+                default:
+                  return null;
+              }
+            })()}
           </div>
         ))}
-        <Button isValid={isValid} label={"Login"} />
+        <Button isValid={isValid} label={submitButton} />
       </form>
     </div>
   );

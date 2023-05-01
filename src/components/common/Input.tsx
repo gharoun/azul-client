@@ -13,7 +13,9 @@ const Input = ({ register, name, label, type = "text", error }: Props) => {
     <div className="mb-3">
       <label htmlFor={name}>{label}</label>
       <input
-        {...register(name)}
+        {...(type === "number"
+          ? register(name, { valueAsNumber: true })
+          : register(name))}
         type={type}
         className="form-control"
         id={name}
