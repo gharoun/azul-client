@@ -66,11 +66,11 @@ const movies = () => {
         ? movies.filter((m) => m.genre._id === dataGenres.selectedGenres?._id)
         : movies;
     const sorted = _.orderBy(filtered, [sortColumn.path], [sortColumn.order]);
-    const AllMovies = paginate(sorted as Movie[], currentPage, pageSize);
-    return { data: AllMovies, totalCount: filtered.length };
+    const allMovies = paginate(sorted as Movie[], currentPage, pageSize);
+    return { allMovies, totalCount: filtered.length };
   };
 
-  const { data: allMovies, totalCount } = getPagedData();
+  const { allMovies, totalCount } = getPagedData();
   if (movies.length === 0) return <p>There are no movies in the Database</p>;
 
   return (

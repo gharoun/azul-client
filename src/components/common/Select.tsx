@@ -1,5 +1,4 @@
 import { UseFormRegister } from "react-hook-form";
-import { Genre } from "../../interfaces/interfaces";
 interface Field {
   _id: string;
   name: string;

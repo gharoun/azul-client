@@ -4,30 +4,43 @@ import Input from "./Input";
 import { ZodType, z } from "zod";
 import Select from "./Select";
 import Button from "./Button";
+import { useEffect } from "react";
 
 interface Field {
   component: string;
   render: string;
   label: string;
+  value?: string | number;
   type?: string;
   options?: any;
 }
 interface Props {
   schema: ZodType;
-  onSubmit: (value: FieldValues) => void;
+  onSubmit: (value: any) => void;
   renderComponents: Field[];
   submitButton: string;
 }
 
 const Form = ({ schema, onSubmit, renderComponents, submitButton }: Props) => {
   type FormData = z.infer<typeof schema>;
+
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
-  } = useForm<FormData>({ resolver: zodResolver(schema) });
+    setValue,
+    formState: { isValid, errors },
+  } = useForm<FormData>({
+    resolver: zodResolver(schema),
+    defaultValues: {},
+  });
+  console.log(errors);
+  useEffect(() => {
+    renderComponents.forEach(({ render, value }) => {
+      setValue(render, value ?? ""); // set default value to empty string if value is undefined
+    });
+  }, [renderComponents, setValue]);
 
-  const renderInput = (name: FormData, label: string, type?: string) => {
+  const renderInput = (name: string, label: string, type?: string) => {
     return (
       <Input
         register={register}
@@ -39,7 +52,7 @@ const Form = ({ schema, onSubmit, renderComponents, submitButton }: Props) => {
     );
   };
 
-  const renderSelect = (name: FormData, label: string, option: any) => {
+  const renderSelect = (name: string, label: string, option: any) => {
     return (
       <Select
         register={register}

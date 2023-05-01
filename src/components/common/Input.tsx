@@ -1,4 +1,4 @@
-import { UseFormRegister } from "react-hook-form";
+import { FieldError, UseFormRegister } from "react-hook-form";
 
 interface Props {
   name: string;
@@ -7,10 +7,10 @@ interface Props {
   type?: string;
   error?: any;
 }
-
 const Input = ({ register, name, label, type = "text", error }: Props) => {
+  console.log(error?.message);
   return (
-    <div className="mb-3">
+    <div className="mb-3 ">
       <label htmlFor={name}>{label}</label>
       <input
         {...(type === "number"

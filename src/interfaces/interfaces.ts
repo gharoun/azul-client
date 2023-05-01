@@ -14,6 +14,15 @@ export interface Movie {
   publishDate?: string;
   liked?: boolean;
 }
+export interface MovieFormSubmitType {
+  _id?: string;
+  title: string;
+  genreId?: string;
+  numberInStock: number;
+  dailyRentalRate: number;
+  publishDate?: string;
+  liked?: boolean;
+}
 
 export interface Pagination {
   currentPage: number;

@@ -7,7 +7,7 @@ interface Props {
 }
 const ListGroup = ({ onItemSelect, items, itemSelected }: Props) => {
   return (
-    <ul className="list-group">
+    <ul className="list-group" style={{ cursor: "pointer" }}>
       {items.map((item) => (
         <li
           className={
